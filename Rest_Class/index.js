@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const port = 8080;
 const path = require("path");
+const { v4: uuidv4 } = require("uuid");
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -12,17 +13,17 @@ app.use(express.static(path.join(__dirname, "public")));
 
 let posts = [
   {
-    id: "1a",
+    id: uuidv4(),
     username: "@abhishek",
     content: "i love coding",
   },
   {
-    id: "2b",
+    id: uuidv4(),
     username: "@ayush",
     content: "Hard work is important to achieve success",
   },
   {
-    id: "3c",
+    id: uuidv4(),
     username: "@yogesh",
     content: "i got selected for my first internship",
   },
@@ -38,7 +39,8 @@ app.get("/posts/new", (req, res) => {
 
 app.post("/posts", (req, res) => {
   let { username, content } = req.body;
-  posts.push({ username, content });
+  let id = uuidv4();
+  posts.push({ id, username, content });
   res.redirect("/posts");
 });
 
@@ -46,6 +48,20 @@ app.get("/posts/:id", (req, res) => {
   let { id } = req.params;
   let post = posts.find((p) => id === p.id);
   res.render("show.ejs", { post });
+});
+
+app.patch("/posts/:id", (req, res) => {
+  let { id } = req.params;
+  let newContent = req.body.content;
+  let post = posts.find((p) => id === p.id);
+  post.content = newContent;
+  res.send("patch request is working");
+});
+
+app.get("/posts/:id/edit", (req, res) => {
+  let { id } = req.params;
+  let post = posts.find((p) => id === p.id);
+  res.render("edit.ejs", { post });
 });
 
 app.listen(port, () => {
