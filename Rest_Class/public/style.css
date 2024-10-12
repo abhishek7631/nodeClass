@@ -9,3 +9,13 @@ h1 {
 .user {
   font-style: italic;
 }
+
+a {
+  text-decoration: none;
+  border: 2px solid black;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: yellow;
+  color: red;
+  border: none;
+}
