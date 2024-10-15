@@ -21,20 +21,30 @@ const bookSchema = new mongoose.Schema({
   price: {
     type: Number,
   },
+  discount: {
+    type: Number,
+    default: 0,
+  },
 });
 
 const book = mongoose.model("book", bookSchema);
 
-let book1 = new book({
-  title: "Mathematics X",
-  price: 1200,
-});
-
-book1
-  .save()
+book
+  .findByIdAndUpdate("670e012d035b5a99ca5a254d", { price: 560 })
   .then((res) => {
     console.log(res);
-  })
-  .catch((err) => {
-    console.log(err);
   });
+
+// let book1 = new book({
+//   title: "Gone Girl",
+//   price: 399,
+// });
+
+// book1
+//   .save()
+//   .then((res) => {
+//     console.log(res);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
