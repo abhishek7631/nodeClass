@@ -1,9 +1,15 @@
 const express = require("express");
 const app = express();
 
-app.use((req, res) => {
-  console.log("Hi, i am a middleware");
-  res.send("middleware finished");
+// app.use((req, res, next) => {
+//   console.log("Hi, i am a middleware");
+//   next();
+// });
+
+app.use((req, res, next) => {
+  req.time = new Date(Date.now()).toString();
+  console.log(req.method, req.path, req.hostname, req.time);
+  next();
 });
 
 app.get("/", (req, res) => {
